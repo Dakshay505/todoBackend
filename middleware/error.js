@@ -9,8 +9,7 @@ class ErrorHandler extends Error {
 
 
 export const errorMiddleware = (err,req,resp,next)=>{
-
-    return resp.status(err.statusCode).json({
+    return resp.status(err.statusCode || 400).json({
         success:false,
         message:err.message
       })

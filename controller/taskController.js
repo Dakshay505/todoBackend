@@ -40,6 +40,7 @@ export const updateTask =catchAsyncError( async (req, resp,next) => {
 export const deleteTask =catchAsyncError( async (req, resp,next) => {
   const task = await Task.findById(req.params.id);
   if(!task) return next(new ErrorHandler("Task not found",404))
+  if(task.isCompleted===false) return next(new ErrorHandler("Task is not completed",400));
   await task.deleteOne();
   resp.status(201).json({
     success: true,

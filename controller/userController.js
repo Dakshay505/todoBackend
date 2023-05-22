@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import { sendCookie } from "../utils/features.js";
 import catchAsyncError from "../middleware/catchasyncerror.js";
+import ErrorHandler from "../middleware/error.js";
 
 
 // Register
