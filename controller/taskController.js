@@ -22,6 +22,21 @@ export const allTask =catchAsyncError( async (req, resp) => {
   });
 });
 
+// edit task
+export const editTask =catchAsyncError( async (req, resp,next) => {
+  const {title,description,id} = req.body;
+  const task = await Task.findByIdAndUpdate({_id:id},{
+        title,description
+  });
+  
+  if(!task) return next(new ErrorHandler("Task not found",404));
+
+  resp.status(200).json({
+    success: true,
+    message:"task updated successfully",
+  });
+});
+
 // updating task
 export const updateTask =catchAsyncError( async (req, resp,next) => {
   const task = await Task.findById(req.params.id);
@@ -30,9 +45,21 @@ export const updateTask =catchAsyncError( async (req, resp,next) => {
 
   task.isCompleted = !task.isCompleted;
   await task.save();
-  resp.status(201).json({
+  resp.status(200).json({
     success: true,
     message:"task updated successfully",
+  });
+});
+// getting single task
+export const getSingleTask =catchAsyncError( async (req, resp,next) => {
+  const task = await Task.findById(req.params.id);
+  
+  if(!task) return next(new ErrorHandler("Task not found",404));
+
+  resp.status(200).json({
+    task,
+    success: true,
+    message:"Edit your Story",
   });
 });
 
