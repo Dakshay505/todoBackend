@@ -12,7 +12,7 @@ import { errorMiddleware } from "./middleware/error.js";
 export const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-app.use(express.static(path.join(__dirname, "..", "todoBackend/build")));
+app.use(express.static(path.join(__dirname, "build")));
 // using dotenv
 config({path:"./database/config.env"});
 
@@ -30,7 +30,7 @@ app.use("/users",userRoutes);
 app.use("/task",taskRoutes);
 
 app.get("*", (req, res) => {
-    const indexPath = path.join(__dirname, "..", "todoBackend/build", "index.html");
+    const indexPath = path.join(__dirname, "build", "index.html");
     res.sendFile(indexPath);
   });
   
