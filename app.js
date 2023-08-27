@@ -3,11 +3,16 @@ import userRoutes from "./routes/userRoute.js";
 import taskRoutes from "./routes/taskRoute.js";
 import {config} from "dotenv"
 import cors from "cors";
+import path from "path"
+import { fileURLToPath } from "url"; // Import the fileURLToPath function
+import { dirname } from "path";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middleware/error.js";
 
 export const app = express();
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(path.join(__dirname, "..", "todoBackend/build")));
 // using dotenv
 config({path:"./database/config.env"});
 
@@ -24,6 +29,10 @@ app.use(cors({
 app.use("/users",userRoutes);
 app.use("/task",taskRoutes);
 
-
+app.get("*", (req, res) => {
+    const indexPath = path.join(__dirname, "..", "todoBackend/build", "index.html");
+    res.sendFile(indexPath);
+  });
+  
 // handling the error
 app.use(errorMiddleware);
